@@ -14,25 +14,17 @@
   <!-- Lluvia de pétalos amarillos -->
   <div id="petals-container"></div>
 
- <!-- Reproductor de Latin Mafia - Flores (YouTube) -->
-<div id="yt-player-container" style="position: fixed; bottom: 10px; right: 10px; z-index: 1000; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.2);">
-  <iframe 
-    id="yt-player"
-    width="200" 
-    height="113" 
-    src="https://www.youtube.com/watch?v=1oOoOJDbhXQ&list=RD1oOoOJDbhXQ&start_radio=1" 
-    title="Latin Mafia - Flores" 
-    frameborder="0" 
-    allow="autoplay; encrypted-media" 
-    allowfullscreen>
-  </iframe>
-</div>
+  <!-- Audio local de Latin Mafia -->
+  <audio id="bg-music" loop preload="auto">
+    <source src="cancion.mp3" type="audio/mpeg">
+  </audio>
+
   <!-- Botón flotante para pausar/reproducir música -->
   <button id="music-btn" class="music-floating-btn" title="Reproducir / Pausar">
-    🎵 <span id="music-text">Play Latin Mafia</span>
+    🎵 <span id="music-text">Play Flores</span>
   </button>
 
-  <!-- PANTALLA 1: PANTALLA DE BLOQUEO / CANDADO -->
+  <!-- PANTALLA 1: CANDADO / CONTRASEÑA DE FECHA -->
   <section id="lock-screen" class="screen active">
     <div class="card lock-card">
       <div class="kitty-avatar bounce">🐱💛</div>
@@ -65,25 +57,45 @@
         <p class="subtitle">Sé que hoy no pude dártelas en persona, pero estas jamás se van a marchitar... 🌻</p>
       </header>
 
-      <!-- Ramo de Flores Interactivas -->
+      <!-- Ramo de Flores Interactivo con Tallos y Envoltura -->
       <section class="bouquet-section">
-        <div class="kitty-floating">🐱✨ <span class="bubble">¡Toca cada flor!</span></div>
-        <div class="bouquet" id="bouquet">
-          <!-- Flores generadas con JS -->
+        <div class="kitty-floating">🐱✨ <span class="bubble">¡Toca cada flor del ramo!</span></div>
+        
+        <div class="bouquet-wrapper">
+          <div class="bouquet-heads" id="bouquet">
+            <!-- Flores generadas con JS -->
+          </div>
+          <!-- Tallos verdes del ramo -->
+          <div class="bouquet-stems">
+            <div class="stem stem-1"></div>
+            <div class="stem stem-2"></div>
+            <div class="stem stem-3"></div>
+            <div class="stem stem-4"></div>
+            <div class="stem stem-5"></div>
+            <div class="leaf leaf-left">🍃</div>
+            <div class="leaf leaf-right">🍃</div>
+          </div>
+          <!-- Envoltura y moño -->
+          <div class="bouquet-wrap">
+            <div class="ribbon-bow">🎀</div>
+          </div>
         </div>
+
         <div id="flower-message" class="flower-note">
           🌻 Toca una de las flores del ramo para leer algo lindo...
         </div>
       </section>
 
-      <!-- Carta de Amor Editable -->
+      <!-- Carta de Amor -->
       <section class="card letter-card">
         <div class="tape-deco"></div>
         <h2 class="handwriting-title">De mi corazón para ti... 💌</h2>
         <div class="letter-body">
           <p>
-           Hola corazon de melon, se que estas flores quizas no son lo que esperabas, pero son pensadas en ti, yo se que un dia te dare tantas flores que no sabras donde ponerlas jajaja, pero sabes que por el moento no se puede :c, te extraño mucho y se que un dia estaremos juntos, estas flores no se marchitaran y las podras ver las veces que quieras, igualmente este sera un espacio para ti y para mi, es algo que debes esperar de tu novio casi ingeniero hajshd
-           es una sorpresa que te hice con mucho amor, espero que te guste y que te haga sonreir, te amo mucho y eres lo mejor que me ha pasado en la vida, gracias por ser mi persona favorita y por hacerme tan feliz.
+            Hola corazón de melón, sé que estas flores quizás no son lo que esperabas, pero están pensadas en ti. Yo sé que un día te daré tantas flores que no sabrás dónde ponerlas jajaja, pero sabes que por el momento no se puede :c, te extraño mucho y sé que un día estaremos juntos. Estas flores no se marchitarán y las podrás ver las veces que quieras. Igualmente este será un espacio para ti y para mí, es algo que debes esperar de tu novio casi ingeniero hajshd.
+          </p>
+          <p>
+            Es una sorpresa que te hice con mucho amor, espero que te guste y que te haga sonreír. Te amo mucho y eres lo mejor que me ha pasado en la vida, gracias por ser mi persona favorita y por hacerme tan feliz.
           </p>
           <p>
             Estas flores virtuales tienen un superpoder: <strong>nunca van a perder su brillo ni su color</strong>, 
@@ -112,8 +124,6 @@
         <p class="section-sub">Estos apartados se irán revelando conforme pase el tiempo...</p>
 
         <div class="grid-locked">
-          
-          <!-- Tarjeta 1 -->
           <div class="card locked-card">
             <div class="lock-icon">🔒</div>
             <h4>Cita Bajo las Estrellas ✨</h4>
@@ -121,7 +131,6 @@
             <span class="unlock-tag">Desbloquea: Próximamente</span>
           </div>
 
-          <!-- Tarjeta 2 -->
           <div class="card locked-card">
             <div class="lock-icon">🔒</div>
             <h4>Álbum de Recuerdos Secretos 📸</h4>
@@ -129,18 +138,15 @@
             <span class="unlock-tag">Desbloquea: Próximamente</span>
           </div>
 
-          <!-- Tarjeta 3 -->
           <div class="card locked-card">
             <div class="lock-icon">🔒</div>
             <h4>Nuestra Playlist en Repetición 🎧</h4>
             <p class="locked-desc">Todas las canciones de Latin Mafia y temas que nos recuerdan uno al otro.</p>
             <span class="unlock-tag">Desbloquea: Próximamente</span>
           </div>
-
         </div>
       </section>
 
-      <!-- Footer -->
       <footer class="footer">
         Hecho con amor eterno y muchos gatitos para ti 🐱💛
       </footer>

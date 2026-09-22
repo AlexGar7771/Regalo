@@ -1,6 +1,6 @@
 :root {
   --bg-gradient: linear-gradient(135deg, #fff9e6 0%, #ffeaa7 50%, #fed330 100%);
-  --card-bg: rgba(255, 255, 255, 0.92);
+  --card-bg: rgba(255, 255, 255, 0.94);
   --primary-yellow: #f5b041;
   --dark-yellow: #d68910;
   --accent-pink: #ff7675;
@@ -91,7 +91,7 @@ body {
   opacity: 1;
 }
 
-/* Tarjetas y Contenedores */
+/* Tarjetas */
 .lock-card {
   max-width: 440px;
   margin: 90px auto 30px;
@@ -193,7 +193,7 @@ input[type="date"]:focus {
   letter-spacing: 4px;
 }
 
-/* Pantalla Principal */
+/* Contenedor Principal */
 .content-wrapper {
   max-width: 680px;
   margin: 0 auto;
@@ -229,10 +229,15 @@ input[type="date"]:focus {
   color: var(--text-muted);
 }
 
-/* Ramo de flores */
+/* ========================================================
+   ESTRUCTURA DEL RAMO DE FLORES CON TALLOS Y ENVOLTURA
+   ======================================================== */
 .bouquet-section {
   text-align: center;
   margin-bottom: 28px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .kitty-floating {
@@ -249,24 +254,90 @@ input[type="date"]:focus {
   box-shadow: 0 2px 6px rgba(0,0,0,0.06);
 }
 
-.bouquet {
+.bouquet-wrapper {
+  position: relative;
+  width: 320px;
+  height: 330px;
+  margin: 10px auto;
   display: flex;
-  justify-content: center;
+  flex-direction: column;
   align-items: center;
-  flex-wrap: wrap;
-  gap: 12px;
-  margin: 10px 0;
 }
 
-.flower {
-  font-size: 46px;
+.bouquet-heads {
+  position: absolute;
+  top: 10px;
+  width: 290px;
+  height: 150px;
+  z-index: 5;
+}
+
+.flower-item {
+  position: absolute;
+  font-size: 48px;
   cursor: pointer;
-  transition: transform 0.3s;
+  transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
   user-select: none;
+  filter: drop-shadow(0 4px 8px rgba(0,0,0,0.15));
 }
 
-.flower:hover {
-  transform: scale(1.25) rotate(12deg);
+.flower-item:hover {
+  transform: scale(1.3) rotate(15deg) !important;
+  z-index: 20;
+}
+
+/* Tallos verdes */
+.bouquet-stems {
+  position: absolute;
+  top: 110px;
+  width: 140px;
+  height: 140px;
+  z-index: 2;
+}
+
+.stem {
+  position: absolute;
+  width: 6px;
+  height: 130px;
+  background: linear-gradient(to bottom, #2ecc71, #27ae60);
+  border-radius: 4px;
+  bottom: 0;
+  left: 50%;
+}
+
+.stem-1 { transform: translateX(-50%) rotate(-18deg); height: 125px; }
+.stem-2 { transform: translateX(-50%) rotate(-8deg); height: 135px; }
+.stem-3 { transform: translateX(-50%) rotate(0deg); height: 140px; }
+.stem-4 { transform: translateX(-50%) rotate(8deg); height: 135px; }
+.stem-5 { transform: translateX(-50%) rotate(18deg); height: 125px; }
+
+.leaf {
+  position: absolute;
+  font-size: 24px;
+  z-index: 3;
+}
+.leaf-left { top: 30px; left: 10px; transform: rotate(-35deg); }
+.leaf-right { top: 40px; right: 10px; transform: rotate(35deg) scaleX(-1); }
+
+/* Envoltura y moño */
+.bouquet-wrap {
+  position: absolute;
+  bottom: 10px;
+  width: 120px;
+  height: 110px;
+  background: linear-gradient(135deg, #fce4ec, #f8bbd0);
+  clip-path: polygon(15% 0%, 85% 0%, 65% 100%, 35% 100%);
+  z-index: 6;
+  box-shadow: 0 6px 14px rgba(0,0,0,0.1);
+}
+
+.ribbon-bow {
+  position: absolute;
+  top: 15px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 34px;
+  filter: drop-shadow(0 2px 4px rgba(0,0,0,0.15));
 }
 
 .flower-note {
@@ -277,7 +348,8 @@ input[type="date"]:focus {
   font-weight: 600;
   color: #2c3e50;
   display: inline-block;
-  margin-top: 10px;
+  margin-top: 15px;
+  max-width: 90%;
   box-shadow: 0 4px 12px rgba(0,0,0,0.05);
   border: 1px dashed var(--primary-yellow);
 }
@@ -322,7 +394,7 @@ input[type="date"]:focus {
   margin-top: 14px;
 }
 
-/* Zona tierna */
+/* Mimos y Dulces */
 .cute-zone {
   text-align: center;
 }

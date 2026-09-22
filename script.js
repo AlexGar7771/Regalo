@@ -1,27 +1,37 @@
 // ==========================================
-// 1. CONFIGURACIONES EDITABLES (TUS DATOS)
+// 1. CONFIGURACIÓN EDITABLE
 // ==========================================
 
-// Cambia esta fecha por la fecha en que se escaparon y se dieron el beso (Formato: YYYY-MM-DD)
+// Fecha en la que se escaparon y se dieron el beso (Formato: YYYY-MM-DD)
+// Reemplaza por el año, mes y día exacto de ese recuerdo especial:
 const FECHA_CORRECTA = '2026-09-07'; 
 
-// Frases tiernas para cuando toque cada una de las flores amarillas
 const FRASES_FLORES = [
   "🌻 Mi persona favorita eres tuuu.",
   "✨ Tengo muchas ganas de vertee.",
   "💛 Me encanta cada recuerdo a tu lado, especialmente el día de nuestro primer beso.",
-  "🐱 Un dia te llenare de tantas flores que no sabras donde ponerlas jsjsjs.",
+  "🐱 Un día te llenaré de tantas flores que no sabrás dónde ponerlas jsjsjs.",
   "🌟 Eres la casualidad más bonita que me ha pasado en la vida.",
   "🍭 Tu risa y tu compañía son mi lugar seguro.",
   "🌻 Estas flores nunca van a marchitarse, igual que lo que siento por ti."
 ];
 
-// Reacciones del gatito y los dulces
 const DULCES_MSGS = [
   "🐱 *Ronroneo* ¡Te amo con todo mi corazoncito!",
   "🍭 ¡Una paletita dulce para la niña más dulce del mundo!",
   "🍫 ¡Un chocolate para alegrarte el día!",
   "🧁 ¡Un cupcake relleno de besitos y abrazos!"
+];
+
+// Disposición simétrica de las flores sobre los tallos
+const POSICIONES_RAMO = [
+  { top: 55, left: 20, rotate: -25 },
+  { top: 20, left: 60, rotate: -12 },
+  { top: 5,  left: 120, rotate: 0 },
+  { top: 20, left: 180, rotate: 12 },
+  { top: 55, left: 220, rotate: 25 },
+  { top: 65, left: 85, rotate: -5 },
+  { top: 65, left: 155, rotate: 5 }
 ];
 
 // ==========================================
@@ -40,7 +50,32 @@ const musicBtn = document.getElementById('music-btn');
 const musicText = document.getElementById('music-text');
 
 // ==========================================
-// 3. DESBLOQUEO POR CONTRASEÑA DE FECHA
+// 3. CONTROL DE MÚSICA LOCAL (cancion.mp3)
+// ==========================================
+function reproducirMusica() {
+  if (!bgMusic) return;
+  bgMusic.play().then(() => {
+    if (musicText) musicText.innerText = "Pausar Flores";
+  }).catch((err) => {
+    console.log("Reproducción pendiente de interacción:", err);
+  });
+}
+
+if (musicBtn) {
+  musicBtn.addEventListener('click', () => {
+    if (!bgMusic) return;
+    if (bgMusic.paused) {
+      bgMusic.play();
+      musicText.innerText = "Pausar Flores";
+    } else {
+      bgMusic.pause();
+      musicText.innerText = "Play Flores";
+    }
+  });
+}
+
+// ==========================================
+// 4. DESBLOQUEO POR CONTRASEÑA DE FECHA
 // ==========================================
 unlockBtn.addEventListener('click', () => {
   const fechaSeleccionada = dateInput.value;
@@ -51,46 +86,33 @@ unlockBtn.addEventListener('click', () => {
   }
 
   if (fechaSeleccionada === FECHA_CORRECTA) {
-    // Éxito: ocultar candado y mostrar sorpresa
     lockScreen.classList.remove('active');
     lockScreen.classList.add('hidden');
     mainContent.classList.remove('hidden');
     mainContent.classList.add('active');
 
-    // Iniciar la música de Latin Mafia automáticamente tras interactuar
-    iniciarMusica();
+    // Reproduce la música de Latin Mafia de inmediato
+    reproducirMusica();
   } else {
     errorMsg.innerText = "Esa no es la fecha amorcito... Recuerda bien ese día 🤫💋";
   }
 });
-// ==========================================
-// CONTROL DE MÚSICA (YOUTUBE EMBED)
-// ==========================================
-let isPlaying = false;
-const iframe = document.getElementById('yt-player');
-
-function toggleMusicaYouTube() {
-  if (!iframe) return;
-  const command = isPlaying 
-    ? '{"event":"command","func":"pauseVideo","args":""}' 
-    : '{"event":"command","func":"playVideo","args":""}';
-  
-  iframe.contentWindow.postMessage(command, '*');
-  isPlaying = !isPlaying;
-  document.getElementById('music-text').innerText = isPlaying ? "Pausar Flores" : "Play Flores";
-}
-
-document.getElementById('music-btn').addEventListener('click', toggleMusicaYouTube);
 
 // ==========================================
 // 5. GENERACIÓN DEL RAMO INTERACTIVO
 // ==========================================
 function renderBouquet() {
+  bouquetContainer.innerHTML = '';
   FRASES_FLORES.forEach((frase, index) => {
     const flower = document.createElement('span');
-    flower.classList.add('flower');
+    flower.classList.add('flower-item');
     flower.innerText = '🌻';
-    flower.title = 'Haz clic para leer';
+    flower.title = 'Tócame';
+
+    const pos = POSICIONES_RAMO[index] || { top: 40, left: 120, rotate: 0 };
+    flower.style.top = `${pos.top}px`;
+    flower.style.left = `${pos.left}px`;
+    flower.style.transform = `rotate(${pos.rotate}deg)`;
 
     flower.addEventListener('click', () => {
       flowerMessage.innerHTML = `<strong>Flor #${index + 1}:</strong> ${frase}`;
@@ -103,7 +125,7 @@ function renderBouquet() {
 }
 
 // ==========================================
-// 6. ACCIONES DE GATITO Y DULCES
+// 6. ACCIONES DE GATITOS Y DULCES
 // ==========================================
 window.petKitty = function() {
   cuteFeedback.innerText = "🐱 *Prrrrr* ¡Miau! Dice que eres el amor de mi vida 💕";
@@ -115,10 +137,11 @@ window.giveCandy = function(tipo) {
 };
 
 // ==========================================
-// 7. LLUVIA DE PÉTALOS AMARILLOS
+// 7. PÉTALOS FLOTANTES CAYENDO
 // ==========================================
 function createPetal() {
   const container = document.getElementById('petals-container');
+  if (!container) return;
   const petal = document.createElement('div');
   petal.classList.add('petal');
 
@@ -130,13 +153,8 @@ function createPetal() {
   petal.style.opacity = (Math.random() * 0.5 + 0.4).toString();
 
   container.appendChild(petal);
-
-  setTimeout(() => {
-    petal.remove();
-  }, 7000);
+  setTimeout(() => petal.remove(), 7000);
 }
 
 setInterval(createPetal, 350);
-
-// Inicializar el ramo al cargar
 renderBouquet();
