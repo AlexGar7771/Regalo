@@ -1,0 +1,435 @@
+:root {
+  --bg-gradient: linear-gradient(135deg, #fff9e6 0%, #ffeaa7 50%, #fed330 100%);
+  --card-bg: rgba(255, 255, 255, 0.92);
+  --primary-yellow: #f5b041;
+  --dark-yellow: #d68910;
+  --accent-pink: #ff7675;
+  --text-main: #2d3436;
+  --text-muted: #636e72;
+  --shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Quicksand', sans-serif;
+}
+
+body {
+  background: var(--bg-gradient);
+  color: var(--text-main);
+  min-height: 100vh;
+  position: relative;
+  overflow-x: hidden;
+}
+
+/* Pétalos de flores cayendo */
+#petals-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 10;
+}
+
+.petal {
+  position: absolute;
+  top: -20px;
+  background: #f1c40f;
+  border-radius: 15px 0px 15px 0px;
+  opacity: 0.8;
+  animation: fall linear forwards;
+}
+
+@keyframes fall {
+  to {
+    transform: translateY(105vh) rotate(360deg);
+  }
+}
+
+/* Botón flotante de música */
+.music-floating-btn {
+  position: fixed;
+  top: 18px;
+  right: 18px;
+  z-index: 100;
+  background: #ffffff;
+  color: #2d3436;
+  border: 2px solid var(--primary-yellow);
+  padding: 8px 16px;
+  border-radius: 30px;
+  font-weight: 700;
+  font-size: 13px;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.12);
+  transition: transform 0.2s, background 0.2s;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.music-floating-btn:hover {
+  transform: scale(1.05);
+  background: #fff8e1;
+}
+
+/* Pantallas y transiciones */
+.screen {
+  transition: opacity 0.5s ease;
+}
+
+.screen.hidden {
+  display: none;
+  opacity: 0;
+}
+
+.screen.active {
+  display: block;
+  opacity: 1;
+}
+
+/* Tarjetas y Contenedores */
+.lock-card {
+  max-width: 440px;
+  margin: 90px auto 30px;
+  text-align: center;
+}
+
+.card {
+  background: var(--card-bg);
+  border-radius: 24px;
+  padding: 26px;
+  box-shadow: var(--shadow);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  margin-bottom: 24px;
+}
+
+.kitty-avatar {
+  font-size: 54px;
+  margin-bottom: 12px;
+}
+
+.bounce {
+  animation: bounce 2s infinite;
+}
+
+@keyframes bounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
+}
+
+.hint-text {
+  font-size: 14px;
+  color: var(--text-muted);
+  margin: 14px 0 20px;
+  line-height: 1.5;
+  background: #fff9e6;
+  padding: 12px;
+  border-radius: 12px;
+  border-left: 4px solid var(--primary-yellow);
+}
+
+.input-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  text-align: left;
+  margin-bottom: 18px;
+}
+
+.input-group label {
+  font-size: 13px;
+  font-weight: 700;
+}
+
+input[type="date"] {
+  width: 100%;
+  padding: 12px 14px;
+  border-radius: 12px;
+  border: 1px solid #dcdde1;
+  font-size: 15px;
+  outline: none;
+  background: #fff;
+}
+
+input[type="date"]:focus {
+  border-color: var(--primary-yellow);
+}
+
+.btn-primary {
+  width: 100%;
+  background: linear-gradient(135deg, #f5b041, #f39c12);
+  color: #fff;
+  border: none;
+  padding: 13px;
+  border-radius: 14px;
+  font-weight: 700;
+  font-size: 15px;
+  cursor: pointer;
+  box-shadow: 0 4px 14px rgba(243, 156, 18, 0.35);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(243, 156, 18, 0.45);
+}
+
+.error-text {
+  color: #e74c3c;
+  font-size: 13px;
+  font-weight: 700;
+  margin-top: 10px;
+  min-height: 18px;
+}
+
+.candies-deco {
+  font-size: 20px;
+  margin-top: 16px;
+  letter-spacing: 4px;
+}
+
+/* Pantalla Principal */
+.content-wrapper {
+  max-width: 680px;
+  margin: 0 auto;
+  padding: 60px 18px 40px;
+}
+
+.header {
+  text-align: center;
+  margin-bottom: 24px;
+}
+
+.badge {
+  background: #fef9e7;
+  color: var(--dark-yellow);
+  font-weight: 800;
+  font-size: 12px;
+  padding: 6px 14px;
+  border-radius: 20px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  border: 1px solid #f9e79f;
+}
+
+.glow-title {
+  font-size: 30px;
+  font-weight: 800;
+  margin: 14px 0 8px;
+  color: #2c3e50;
+}
+
+.subtitle {
+  font-size: 15px;
+  color: var(--text-muted);
+}
+
+/* Ramo de flores */
+.bouquet-section {
+  text-align: center;
+  margin-bottom: 28px;
+}
+
+.kitty-floating {
+  font-size: 18px;
+  font-weight: 700;
+  margin-bottom: 12px;
+}
+
+.bubble {
+  background: #fff;
+  padding: 4px 10px;
+  border-radius: 12px;
+  font-size: 13px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.06);
+}
+
+.bouquet {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin: 10px 0;
+}
+
+.flower {
+  font-size: 46px;
+  cursor: pointer;
+  transition: transform 0.3s;
+  user-select: none;
+}
+
+.flower:hover {
+  transform: scale(1.25) rotate(12deg);
+}
+
+.flower-note {
+  background: #ffffff;
+  padding: 14px 18px;
+  border-radius: 16px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #2c3e50;
+  display: inline-block;
+  margin-top: 10px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+  border: 1px dashed var(--primary-yellow);
+}
+
+/* Carta Romántica */
+.letter-card {
+  position: relative;
+  background: #fffdf7;
+  border: 1px solid #f5e8b7;
+}
+
+.tape-deco {
+  width: 90px;
+  height: 24px;
+  background: rgba(245, 176, 65, 0.4);
+  position: absolute;
+  top: -12px;
+  left: 50%;
+  transform: translateX(-50%);
+  border-radius: 4px;
+}
+
+.handwriting-title {
+  font-family: 'Caveat', cursive;
+  font-size: 34px;
+  color: #b7791f;
+  margin-bottom: 12px;
+}
+
+.letter-body p {
+  line-height: 1.8;
+  font-size: 15px;
+  margin-bottom: 12px;
+  color: #4a5568;
+}
+
+.signature {
+  font-family: 'Caveat', cursive;
+  font-size: 26px;
+  color: #b7791f;
+  text-align: right;
+  margin-top: 14px;
+}
+
+/* Zona tierna */
+.cute-zone {
+  text-align: center;
+}
+
+.interactive-icons {
+  display: flex;
+  justify-content: center;
+  gap: 14px;
+  margin: 18px 0;
+  flex-wrap: wrap;
+}
+
+.icon-btn {
+  background: #ffffff;
+  border: 1px solid #eee;
+  padding: 12px 16px;
+  border-radius: 16px;
+  font-size: 24px;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  box-shadow: 0 3px 8px rgba(0,0,0,0.04);
+  transition: transform 0.2s, background 0.2s;
+}
+
+.icon-btn:hover {
+  transform: translateY(-4px);
+  background: #fff9e6;
+}
+
+.btn-sub {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--text-muted);
+}
+
+.feedback-text {
+  font-weight: 700;
+  color: #d68910;
+  min-height: 22px;
+}
+
+/* Bloques futuros */
+.locked-sections-area {
+  margin-top: 36px;
+  text-align: center;
+}
+
+.section-heading {
+  font-size: 22px;
+  font-weight: 800;
+  color: #2c3e50;
+  margin-bottom: 6px;
+}
+
+.section-sub {
+  font-size: 14px;
+  color: var(--text-muted);
+  margin-bottom: 20px;
+}
+
+.grid-locked {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 16px;
+}
+
+.locked-card {
+  text-align: center;
+  padding: 22px 16px;
+  border: 1px dashed #cbd5e1;
+  background: rgba(255, 255, 255, 0.7);
+}
+
+.lock-icon {
+  font-size: 30px;
+  margin-bottom: 10px;
+}
+
+.locked-card h4 {
+  font-size: 15px;
+  margin-bottom: 8px;
+  color: #334155;
+}
+
+.locked-desc {
+  font-size: 12px;
+  color: #64748b;
+  margin-bottom: 14px;
+  line-height: 1.4;
+}
+
+.unlock-tag {
+  background: #f1f5f9;
+  color: #64748b;
+  font-size: 10px;
+  font-weight: 700;
+  padding: 4px 10px;
+  border-radius: 12px;
+  text-transform: uppercase;
+}
+
+.footer {
+  text-align: center;
+  font-size: 13px;
+  color: #7f8c8d;
+  margin-top: 30px;
+}
