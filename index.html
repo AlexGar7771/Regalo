@@ -3,32 +3,38 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Nuestras Flores Amarillas 🌻✨</title>
+  <title>Nuestro Rincón Especial 💌✨</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Quicksand:wght@400;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Quicksand:wght@400;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
+  
+  <!-- Supabase CDN para sincronización en la nube -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
 <body>
 
-  <!-- Lluvia de pétalos amarillos -->
-  <div id="petals-container"></div>
+  <!-- Lluvia de partículas -->
+  <div id="sparkles-container"></div>
 
-  <!-- Audio local de Latin Mafia -->
+  <!-- Audio local -->
   <audio id="bg-music" loop preload="auto">
     <source src="cancion.mp3" type="audio/mpeg">
   </audio>
 
-  <!-- Botón flotante para pausar/reproducir música -->
+  <!-- Botón de música -->
   <button id="music-btn" class="music-floating-btn" title="Reproducir / Pausar">
-    🎵 <span id="music-text">Play Flores</span>
+    🎵 <span id="music-text">Play Música</span>
   </button>
 
-  <!-- PANTALLA 1: CANDADO / CONTRASEÑA DE FECHA -->
+  <!-- Notificación emergente en vivo -->
+  <div id="toast-notif" class="toast-popup hidden"></div>
+
+  <!-- PANTALLA 1: CANDADO -->
   <section id="lock-screen" class="screen active">
     <div class="card lock-card">
-      <div class="kitty-avatar bounce">🐱💛</div>
-      <h2>Acceso a tu sorpresa especial</h2>
+      <div class="kitty-avatar bounce">🐱💙</div>
+      <h2>Nuestro Rinconcito Secreto</h2>
       <p class="hint-text">
         🔒 <strong>Pista secreta:</strong><br>
         El día que nos escapamos y nos dimos nuestro beso... 🤫💋
@@ -39,7 +45,7 @@
         <input type="date" id="date-pass">
       </div>
 
-      <button id="btn-unlock" class="btn-primary">Desbloquear Mi Regalo ✨</button>
+      <button id="btn-unlock" class="btn-primary">Entrar a Nuestro Espacio ✨</button>
       <p id="error-msg" class="error-text"></p>
 
       <div class="candies-deco">🍬 🍭 🧁 🍫 🐱</div>
@@ -49,108 +55,144 @@
   <!-- PANTALLA 2: CONTENIDO PRINCIPAL -->
   <main id="main-content" class="screen hidden">
     <div class="content-wrapper">
-      
-      <!-- Encabezado Romántico -->
-      <header class="header">
-        <span class="badge">Especial 21 de Septiembre 💛</span>
-        <h1 class="glow-title">Flores Amarillas Eternas Para Ti</h1>
-        <p class="subtitle">Sé que hoy no pude dártelas en persona, pero estas jamás se van a marchitar... 🌻</p>
-      </header>
 
-      <!-- Ramo de Flores Interactivo con Tallos y Envoltura -->
-      <section class="bouquet-section">
-        <div class="kitty-floating">🐱✨ <span class="bubble">¡Toca cada flor del ramo!</span></div>
-        
-        <div class="bouquet-wrapper">
-          <div class="bouquet-heads" id="bouquet">
-            <!-- Flores generadas con JS -->
-          </div>
-          <!-- Tallos verdes del ramo -->
-          <div class="bouquet-stems">
-            <div class="stem stem-1"></div>
-            <div class="stem stem-2"></div>
-            <div class="stem stem-3"></div>
-            <div class="stem stem-4"></div>
-            <div class="stem stem-5"></div>
-            <div class="leaf leaf-left">🍃</div>
-            <div class="leaf leaf-right">🍃</div>
-          </div>
-          <!-- Envoltura y moño -->
-          <div class="bouquet-wrap">
-            <div class="ribbon-bow">🎀</div>
+      <!-- Navegación -->
+      <nav class="nav-tabs">
+        <button class="tab-btn active" onclick="cambiarVista('diario')">📝 Notitas & Mimos</button>
+        <button class="tab-btn" onclick="cambiarVista('retos')">🌟 Cositas Juntos</button>
+        <button class="tab-btn" onclick="cambiarVista('flores')">🌻 Flores Amarillas</button>
+      </nav>
+
+      <!-- VISTA 1: NOTITAS EN TIEMPO REAL -->
+      <section id="vista-diario" class="tab-view active">
+        <header class="header">
+          <span class="badge">Sincronizado en la nube ☁️💙</span>
+          <h1 class="glow-title">Hola, mi corazón de melón 🐱</h1>
+          <p class="subtitle">Cualquier notita que dejes aquí se guardará y la veremos los dos al instante.</p>
+        </header>
+
+        <!-- Botón interactivo "Pensando en ti" -->
+        <div class="card pulse-card">
+          <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px;">
+            <div>
+              <h4 style="color: #1e3a8a; margin-bottom: 3px;">¿Te acordaste de mí? 💓</h4>
+              <p style="font-size: 12px; color: #64748b;">Mándame un aviso de que estás pensando en mí ahora mismo</p>
+            </div>
+            <button class="btn-heart" onclick="enviarPensandoEnTi()">Enviar latido 💌</button>
           </div>
         </div>
 
-        <div id="flower-message" class="flower-note">
-          🌻 Toca una de las flores del ramo para leer algo lindo...
+        <!-- Creador de notas -->
+        <div class="card note-creator-card">
+          <div class="card-title-row">
+            <h3>💌 Escribir un recadito</h3>
+            <span class="bubble-tag" id="sync-status">Conectado ✨</span>
+          </div>
+          <textarea id="nueva-nota-txt" placeholder="Escribe algo lindo para el día de hoy..."></textarea>
+          <div class="note-actions">
+            <div class="stickers-pick">
+              <span>¿Quién escribe?:</span>
+              <select id="nota-autor">
+                <option value="Tu novio casi inge 🐱">Tu novio casi inge 🐱 (Morado)</option>
+                <option value="Corazón de melón 💙">Corazón de melón 💙 (Azulito)</option>
+              </select>
+            </div>
+            <button class="btn-primary" style="width: auto; padding: 10px 22px;" id="btn-publicar-nota" onclick="agregarNotita()">Pegar Notita 📌</button>
+          </div>
+        </div>
+
+        <!-- Tablón de post-its -->
+        <div class="mural-header">
+          <h2>📌 Muro de Notitas Compartidas</h2>
+          <p>Tus notas moradas y sus notas azulitas</p>
+        </div>
+        <div id="mural-notas" class="notes-grid">
+          <!-- Cargadas desde Supabase -->
+        </div>
+
+        <!-- Mimos -->
+        <div class="card cute-zone">
+          <h3>Un poquito de cariño express 🐾🍬</h3>
+          <p>Toca para enviarle un mimetito:</p>
+          <div class="interactive-icons">
+            <button class="icon-btn" onclick="petKitty()">🐱 <span class="btn-sub">Mimos</span></button>
+            <button class="icon-btn" onclick="giveCandy('🍭')">🍭 <span class="btn-sub">Dulce</span></button>
+            <button class="icon-btn" onclick="giveCandy('🍫')">🍫 <span class="btn-sub">Chocolate</span></button>
+            <button class="icon-btn" onclick="giveCandy('☕')">☕ <span class="btn-sub">Cafecito</span></button>
+          </div>
+          <div id="cute-feedback" class="feedback-text">¡Miau! Te amo mucho 💕</div>
         </div>
       </section>
 
-      <!-- Carta de Amor -->
-      <section class="card letter-card">
-        <div class="tape-deco"></div>
-        <h2 class="handwriting-title">De mi corazón para ti... 💌</h2>
-        <div class="letter-body">
-          <p>
-            Hola corazón de melón, sé que estas flores quizás no son lo que esperabas, pero están pensadas en ti. Yo sé que un día te daré tantas flores que no sabrás dónde ponerlas jajaja, pero sabes que por el momento no se puede :c, te extraño mucho y sé que un día estaremos juntos. Estas flores no se marchitarán y las podrás ver las veces que quieras. Igualmente este será un espacio para ti y para mí, es algo que debes esperar de tu novio casi ingeniero hajshd.
-          </p>
-          <p>
-            Es una sorpresa que te hice con mucho amor, espero que te guste y que te haga sonreír. Te amo mucho y eres lo mejor que me ha pasado en la vida, gracias por ser mi persona favorita y por hacerme tan feliz.
-          </p>
-          <p>
-            Estas flores virtuales tienen un superpoder: <strong>nunca van a perder su brillo ni su color</strong>, 
-            exactamente igual a lo que siento por ti todos los días. Eres mi lugar seguro, mi calma y mi sonrisa favorita.
-          </p>
-          <p class="signature">Con todo mi amor siempre, tu persona favorita. ✨💛🐱</p>
+      <!-- VISTA 2: DESEOS Y RETOS DE PAREJA (INTERACTIVO) -->
+      <section id="vista-retos" class="tab-view hidden">
+        <header class="header">
+          <span class="badge">Nuestras Metas & Planes 🌟</span>
+          <h1 class="glow-title">Cosas por hacer juntos</h1>
+          <p class="subtitle">Agreguen ideas, citas o detalles y márquenlos cuando los cumplan 👫</p>
+        </header>
+
+        <div class="card">
+          <div style="display: flex; gap: 8px;">
+            <input type="text" id="nuevo-reto-txt" placeholder="Ej: Comer crepas juntos, llamada nocturna..." style="margin-top:0;">
+            <button class="btn-primary" style="width: auto; padding: 0 16px;" onclick="agregarReto()">Agregar ✨</button>
+          </div>
+        </div>
+
+        <div class="card">
+          <div id="lista-retos" class="todo-list">
+            <!-- Se cargan dinámicamente -->
+          </div>
         </div>
       </section>
 
-      <!-- Zona de Gatitos & Dulces -->
-      <section class="card cute-zone">
-        <h3>Rincón de Dulzura y Mimos 🐾🍬</h3>
-        <p>Toca al gatito o los dulces para recibir cariño:</p>
-        <div class="interactive-icons">
-          <button class="icon-btn" onclick="petKitty()">🐱 <span class="btn-sub">Acariciar</span></button>
-          <button class="icon-btn" onclick="giveCandy('🍭')">🍭 <span class="btn-sub">Paleta</span></button>
-          <button class="icon-btn" onclick="giveCandy('🍫')">🍫 <span class="btn-sub">Chocolate</span></button>
-          <button class="icon-btn" onclick="giveCandy('🧁')">🧁 <span class="btn-sub">Cupcake</span></button>
+      <!-- VISTA 3: FLORES AMARILLAS -->
+      <section id="vista-flores" class="tab-view hidden">
+        <header class="header">
+          <span class="badge" style="background:#fef9e7; color:#d68910; border-color:#f9e79f;">Flores Eternas 🌻</span>
+          <h1 class="glow-title">Tus Flores Amarillas</h1>
+          <p class="subtitle">Este ramo nunca se va a marchitar y siempre te esperará aquí 💛</p>
+        </header>
+
+        <div class="bouquet-section">
+          <div class="bouquet-wrapper">
+            <div class="bouquet-heads" id="bouquet"></div>
+            <div class="bouquet-stems">
+              <div class="stem stem-1"></div>
+              <div class="stem stem-2"></div>
+              <div class="stem stem-3"></div>
+              <div class="stem stem-4"></div>
+              <div class="stem stem-5"></div>
+              <div class="leaf leaf-left">🍃</div>
+              <div class="leaf leaf-right">🍃</div>
+            </div>
+            <div class="bouquet-wrap">
+              <div class="ribbon-bow">🎀</div>
+            </div>
+          </div>
+          <div id="flower-message" class="flower-note">
+            🌻 Toca cualquiera de las flores amarillas para leer un mensajito...
+          </div>
         </div>
-        <div id="cute-feedback" class="feedback-text">¡Miau! Te quiero un montón 💕</div>
-      </section>
 
-      <!-- Apartados Bloqueados a Futuro -->
-      <section class="locked-sections-area">
-        <h2 class="section-heading">Nuestros Próximos Momentos Juntos ⏳🔒</h2>
-        <p class="section-sub">Estos apartados se irán revelando conforme pase el tiempo...</p>
-
-        <div class="grid-locked">
-          <div class="card locked-card">
-            <div class="lock-icon">🔒</div>
-            <h4>Cita Bajo las Estrellas ✨</h4>
-            <p class="locked-desc">Una noche especial solo para los dos, desconectados del mundo.</p>
-            <span class="unlock-tag">Desbloquea: Próximamente</span>
-          </div>
-
-          <div class="card locked-card">
-            <div class="lock-icon">🔒</div>
-            <h4>Álbum de Recuerdos Secretos 📸</h4>
-            <p class="locked-desc">Nuestras fotos más divertidas y espontáneas juntos.</p>
-            <span class="unlock-tag">Desbloquea: Próximamente</span>
-          </div>
-
-          <div class="card locked-card">
-            <div class="lock-icon">🔒</div>
-            <h4>Nuestra Playlist en Repetición 🎧</h4>
-            <p class="locked-desc">Todas las canciones de Latin Mafia y temas que nos recuerdan uno al otro.</p>
-            <span class="unlock-tag">Desbloquea: Próximamente</span>
+        <div class="card letter-card">
+          <div class="tape-deco"></div>
+          <h2 class="handwriting-title">De mi corazón para ti... 💌</h2>
+          <div class="letter-body">
+            <p>
+              Hola corazón de melón, sé que estas flores quizás no son lo que esperabas, pero están pensadas en ti. Yo sé que un día te daré tantas flores que no sabrás dónde ponerlas jajaja, pero sabes que por el momento no se puede :c, te extraño mucho y sé que un día estaremos juntos. Estas flores no se marchitarán y las podrás ver las veces que quieras.
+            </p>
+            <p>
+              Este espacio es para ti y para mí, algo bonito que debes esperar de tu novio casi ingeniero. Gracias por hacerme tan feliz todos los días y ser mi calma en todo momento.
+            </p>
+            <p class="signature">Con todo mi amor siempre, tu persona favorita. ✨💛🐱</p>
           </div>
         </div>
       </section>
 
       <footer class="footer">
-        Hecho con amor eterno y muchos gatitos para ti 🐱💛
+        Conectados en la nube con amor eterno 🐱💙
       </footer>
-
     </div>
   </main>
 
