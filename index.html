@@ -9,15 +9,15 @@
   <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Quicksand:wght@400;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
   
-  <!-- Supabase CDN para sincronización en la nube -->
+  <!-- Supabase CDN -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
 <body>
 
-  <!-- Lluvia de partículas -->
+  <!-- Lluvia de destellos suaves -->
   <div id="sparkles-container"></div>
 
-  <!-- Audio local -->
+  <!-- Audio local con Latin Mafia -->
   <audio id="bg-music" loop preload="auto">
     <source src="cancion.mp3" type="audio/mpeg">
   </audio>
@@ -30,7 +30,7 @@
   <!-- Notificación emergente en vivo -->
   <div id="toast-notif" class="toast-popup hidden"></div>
 
-  <!-- PANTALLA 1: CANDADO -->
+  <!-- PANTALLA 1: CANDADO DE BIENVENIDA -->
   <section id="lock-screen" class="screen active">
     <div class="card lock-card">
       <div class="kitty-avatar bounce">🐱💙</div>
@@ -56,11 +56,12 @@
   <main id="main-content" class="screen hidden">
     <div class="content-wrapper">
 
-      <!-- Navegación -->
+      <!-- Barra de Navegación Completa -->
       <nav class="nav-tabs">
-        <button class="tab-btn active" onclick="cambiarVista('diario')">📝 Notitas & Mimos</button>
-        <button class="tab-btn" onclick="cambiarVista('retos')">🌟 Cositas Juntos</button>
-        <button class="tab-btn" onclick="cambiarVista('flores')">🌻 Flores Amarillas</button>
+        <button class="tab-btn active" onclick="cambiarVista('diario')">📝 Notitas</button>
+        <button class="tab-btn" onclick="cambiarVista('retos')">🌟 Por Hacer</button>
+        <button class="tab-btn" onclick="cambiarVista('bloqueados')">🔒 Bloqueados</button>
+        <button class="tab-btn" onclick="cambiarVista('flores')">🌻 Flores</button>
       </nav>
 
       <!-- VISTA 1: NOTITAS EN TIEMPO REAL -->
@@ -106,9 +107,7 @@
           <h2>📌 Muro de Notitas Compartidas</h2>
           <p>Tus notas moradas y sus notas azulitas</p>
         </div>
-        <div id="mural-notas" class="notes-grid">
-          <!-- Cargadas desde Supabase -->
-        </div>
+        <div id="mural-notas" class="notes-grid"></div>
 
         <!-- Mimos -->
         <div class="card cute-zone">
@@ -124,29 +123,61 @@
         </div>
       </section>
 
-      <!-- VISTA 2: DESEOS Y RETOS DE PAREJA (INTERACTIVO) -->
+      <!-- VISTA 2: COSAS POR HACER (RETOS / CHECKLIST) -->
       <section id="vista-retos" class="tab-view hidden">
         <header class="header">
-          <span class="badge">Nuestras Metas & Planes 🌟</span>
+          <span class="badge">Nuestras Metas & Deseos 🌟</span>
           <h1 class="glow-title">Cosas por hacer juntos</h1>
-          <p class="subtitle">Agreguen ideas, citas o detalles y márquenlos cuando los cumplan 👫</p>
+          <p class="subtitle">Agreguen ideas, citas o detalles y márquenlos con una palomita cuando se cumplan 👫</p>
         </header>
 
         <div class="card">
           <div style="display: flex; gap: 8px;">
-            <input type="text" id="nuevo-reto-txt" placeholder="Ej: Comer crepas juntos, llamada nocturna..." style="margin-top:0;">
-            <button class="btn-primary" style="width: auto; padding: 0 16px;" onclick="agregarReto()">Agregar ✨</button>
+            <input type="text" id="nuevo-reto-txt" placeholder="Ej: Comer crepas juntos, ver una peli..." style="margin-top:0;">
+            <button class="btn-primary" style="width: auto; padding: 0 16px; white-space: nowrap;" id="btn-crear-reto" onclick="agregarReto()">Agregar ✨</button>
           </div>
         </div>
 
         <div class="card">
           <div id="lista-retos" class="todo-list">
-            <!-- Se cargan dinámicamente -->
+            <!-- Cargados con JS -->
           </div>
         </div>
       </section>
 
-      <!-- VISTA 3: FLORES AMARILLAS -->
+      <!-- VISTA 3: APARTADOS BLOQUEADOS -->
+      <section id="vista-bloqueados" class="tab-view hidden">
+        <header class="header">
+          <span class="badge">Futuros Momentos ⏳</span>
+          <h1 class="glow-title">Nuestros Próximos Planes</h1>
+          <p class="subtitle">Estos apartados especiales se irán revelando conforme pase el tiempo...</p>
+        </header>
+
+        <div class="grid-locked">
+          <div class="card locked-card">
+            <div class="lock-icon">🔒</div>
+            <h4>Cita Bajo las Estrellas ✨</h4>
+            <p class="locked-desc">Una noche especial solo para los dos, desconectados de todo el mundo.</p>
+            <span class="unlock-tag">Desbloquea: Próximamente</span>
+          </div>
+
+          <div class="card locked-card">
+            <div class="lock-icon">🔒</div>
+            <h4>Álbum de Recuerdos Secretos 📸</h4>
+            <p class="locked-desc">Nuestras fotos más divertidas, espontáneas y bonitas juntos.</p>
+            <span class="unlock-tag">Desbloquea: Próximamente</span>
+          </div>
+
+          <div class="card locked-card">
+            <div class="lock-icon">🔒</div>
+            <h4>Nuestra Playlist en Repetición 🎧</h4>
+            <p class="locked-desc">Todas las canciones de Latin Mafia y temas que nos recuerdan al otro.</p>
+            <span class="unlock-tag">Desbloquea: Próximamente</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- VISTA 4: FLORES AMARILLAS Y CARTA -->
       <section id="vista-flores" class="tab-view hidden">
         <header class="header">
           <span class="badge" style="background:#fef9e7; color:#d68910; border-color:#f9e79f;">Flores Eternas 🌻</span>

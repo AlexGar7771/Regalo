@@ -1,13 +1,12 @@
 // ==========================================
-// 1. CONFIGURACIÓN Y SUPABASE
+// 1. CONFIGURACIÓN Y CONEXIÓN SUPABASE
 // ==========================================
-// Cambia esto por la fecha real de su beso (YYYY-MM-DD)
+// Fecha del beso (Formato: YYYY-MM-DD)
 const FECHA_CORRECTA = '2026-09-07'; 
 
-// Conexión directa a tu proyecto de Supabase
-const supabaseUrl = 'https://cdblyqtxpuxnhwbxykfh.supabase.co';
-const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNkYmx5cXR4cHV4bmh3Ynh5a2ZoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODQyMDgxMjksImV4cCI6MjA5OTc4NDEyOX0.XMozUuwLYLz3vB8UokwLNX-E-wJZr4QdVnkcVynvnjk';
-const db = window.supabase.createClient(supabaseUrl, supabaseKey);
+const supabaseUrl = 'https://udwtfwicbwpdbxefnmth.supabase.co';
+const supabaseKey = 'sb_publishable_S582CVeyAW6QzN_5RwTXRA_cFBxQloI';
+const db = (window.supabase || supabase).createClient(supabaseUrl, supabaseKey);
 
 const FRASES_FLORES = [
   "🌻 Mi persona favorita siempre eres y serás tú.",
@@ -58,7 +57,7 @@ const nuevoRetoTxt = document.getElementById('nuevo-reto-txt');
 const toastNotif = document.getElementById('toast-notif');
 
 // ==========================================
-// 3. MÚSICA LOCAL (cancion.mp3)
+// 3. MÚSICA LOCAL
 // ==========================================
 function reproducirMusica() {
   if (!bgMusic) return;
@@ -108,7 +107,7 @@ unlockBtn.addEventListener('click', () => {
 });
 
 // ==========================================
-// 5. CAMBIO DE PESTAÑAS
+// 5. NAVEGACIÓN ENTRE PESTAÑAS
 // ==========================================
 window.cambiarVista = function(vista) {
   document.querySelectorAll('.tab-view').forEach(el => {
@@ -130,7 +129,7 @@ window.cambiarVista = function(vista) {
 };
 
 // ==========================================
-// 6. NOTITAS CON SUPABASE (SINCRONIZADAS)
+// 6. NOTITAS CON SUPABASE
 // ==========================================
 async function cargarNotitasCloud() {
   const { data, error } = await db
@@ -163,7 +162,6 @@ window.agregarNotita = async function() {
   }
 
   const autor = notaAutor.value;
-  // Morado para el casi inge, azulito para corazón de melón
   const color = autor.includes("casi inge") ? "color-morado" : "color-azul";
   
   const hoy = new Date();
@@ -198,19 +196,22 @@ window.borrarNotitaCloud = async function(id) {
 };
 
 // ==========================================
-// 7. RETOS / DESEOS COMPARTIDOS
+// 7. RETOS Y DESEOS COMPARTIDOS (CORREGIDO)
 // ==========================================
 async function cargarRetosCloud() {
   const { data, error } = await db
     .from('retos_pareja')
     .select('*')
-    .order('created_at', { ascending: false });
+    .order('created_at', { ascending: true });
 
-  if (error || !data) return;
+  if (error) {
+    console.error("Error al cargar retos:", error.message);
+    return;
+  }
 
   listaRetos.innerHTML = '';
-  if (data.length === 0) {
-    listaRetos.innerHTML = '<p style="color:#64748b;font-size:13px;text-align:center;">Aún no tienen planes guardados. ¡Agreguen uno arriba! ✨</p>';
+  if (!data || data.length === 0) {
+    listaRetos.innerHTML = '<p style="color:#64748b;font-size:13px;text-align:center;padding:12px 0;">Aún no tienen cositas agregadas. ¡Escriban una arriba! ✨</p>';
     return;
   }
 
@@ -218,7 +219,7 @@ async function cargarRetosCloud() {
     const item = document.createElement('div');
     item.className = `todo-item ${reto.completado ? 'done' : ''}`;
     item.innerHTML = `
-      <div style="display:flex;align-items:center;gap:10px;">
+      <div style="display:flex;align-items:center;gap:12px;">
         <button class="todo-check-btn" onclick="toggleReto(${reto.id}, ${reto.completado})">
           ${reto.completado ? '✓' : ''}
         </button>
@@ -232,36 +233,50 @@ async function cargarRetosCloud() {
 
 window.agregarReto = async function() {
   const txt = nuevoRetoTxt.value.trim();
-  if (!txt) return;
+  if (!txt) {
+    alert("Escribe una idea o plan primero 👫");
+    return;
+  }
 
-  await db.from('retos_pareja').insert([{ titulo: txt, completado: false }]);
-  nuevoRetoTxt.value = '';
-  cargarRetosCloud();
+  const btn = document.getElementById('btn-crear-reto');
+  btn.disabled = true;
+
+  const { error } = await db.from('retos_pareja').insert([{ 
+    titulo: txt, 
+    completado: false 
+  }]);
+
+  btn.disabled = false;
+
+  if (error) {
+    alert("Error al guardar: " + error.message);
+  } else {
+    nuevoRetoTxt.value = '';
+    cargarRetosCloud();
+  }
 };
 
 window.toggleReto = async function(id, estadoActual) {
-  await db.from('retos_pareja').update({ completado: !estadoActual }).eq('id', id);
-  cargarRetosCloud();
+  const { error } = await db.from('retos_pareja').update({ completado: !estadoActual }).eq('id', id);
+  if (!error) cargarRetosCloud();
 };
 
 window.borrarReto = async function(id) {
-  await db.from('retos_pareja').delete().eq('id', id);
-  cargarRetosCloud();
+  const { error } = await db.from('retos_pareja').delete().eq('id', id);
+  if (!error) cargarRetosCloud();
 };
 
 // ==========================================
-// 8. INTERACCIÓN "PENSANDO EN TI" (BROADCAST)
+// 8. INTERACCIÓN "PENSANDO EN TI"
 // ==========================================
 let canalRealtime = null;
 
 function suscribirTiempoReal() {
-  // Suscripción a cambios en la base de datos
   db.channel('cambios-db')
     .on('postgres_changes', { event: '*', schema: 'public', table: 'notas_pareja' }, () => cargarNotitasCloud())
     .on('postgres_changes', { event: '*', schema: 'public', table: 'retos_pareja' }, () => cargarRetosCloud())
     .subscribe();
 
-  // Canal para mensajes instantáneos entre teléfonos
   canalRealtime = db.channel('canal-pareja');
   canalRealtime
     .on('broadcast', { event: 'pensando_en_ti' }, (payload) => {
@@ -317,7 +332,6 @@ function renderBouquet() {
   });
 }
 
-// Mimos
 window.petKitty = function() {
   cuteFeedback.innerText = "🐱 *Prrrrr* ¡Miau! Dice que eres el amor de mi vida 💕";
 };
@@ -327,7 +341,6 @@ window.giveCandy = function(tipo) {
   cuteFeedback.innerText = `${tipo} ${aleatorio}`;
 };
 
-// Destellos
 function createSparkle() {
   const container = document.getElementById('sparkles-container');
   if (!container) return;

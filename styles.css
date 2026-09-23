@@ -70,7 +70,6 @@ body {
   transform: scale(1.05);
 }
 
-/* Toast popup */
 .toast-popup {
   position: fixed;
   bottom: 24px;
@@ -89,8 +88,8 @@ body {
 
 .nav-tabs {
   display: flex;
-  gap: 8px;
-  background: rgba(255, 255, 255, 0.8);
+  gap: 6px;
+  background: rgba(255, 255, 255, 0.85);
   padding: 6px;
   border-radius: 16px;
   border: 1px solid var(--border);
@@ -100,15 +99,16 @@ body {
 
 .tab-btn {
   flex: 1;
-  padding: 10px 8px;
+  padding: 10px 4px;
   border: none;
   background: transparent;
   color: var(--text-muted);
   font-weight: 700;
-  font-size: 13px;
+  font-size: 12px;
   border-radius: 12px;
   cursor: pointer;
   transition: all 0.2s ease;
+  text-align: center;
 }
 
 .tab-btn.active {
@@ -118,10 +118,10 @@ body {
 }
 
 .screen.hidden, .tab-view.hidden, .toast-popup.hidden {
-  display: none;
+  display: none !important;
 }
 .screen.active, .tab-view.active {
-  display: block;
+  display: block !important;
 }
 
 .content-wrapper {
@@ -352,7 +352,7 @@ textarea {
   transform: translateY(-3px);
 }
 
-/* Colores solicitados para ti y para ella */
+/* Morado para ti y azulito para ella */
 .color-morado {
   background: #f5f3ff;
   border-top: 4px solid #8b5cf6;
@@ -391,7 +391,7 @@ textarea {
 }
 .btn-del-note:hover { color: #ef4444; }
 
-/* Lista de retos/planes */
+/* Lista de cosas por hacer (Checklist) */
 .todo-list {
   display: flex;
   flex-direction: column;
@@ -403,7 +403,7 @@ textarea {
   align-items: center;
   justify-content: space-between;
   padding: 12px 14px;
-  background: #f8fafc;
+  background: #ffffff;
   border-radius: 12px;
   border: 1px solid #e2e8f0;
   transition: all 0.2s;
@@ -420,18 +420,61 @@ textarea {
   background: #fff;
   border: 2px solid #cbd5e1;
   border-radius: 8px;
-  width: 24px;
-  height: 24px;
+  width: 26px;
+  height: 26px;
   cursor: pointer;
   display: grid;
   place-items: center;
-  font-size: 12px;
+  font-size: 14px;
+  font-weight: bold;
 }
 
 .todo-item.done .todo-check-btn {
   background: #22c55e;
   border-color: #22c55e;
   color: #fff;
+}
+
+/* APARTADOS BLOQUEADOS */
+.grid-locked {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 14px;
+}
+
+.locked-card {
+  text-align: center;
+  padding: 22px 16px;
+  border: 1px dashed #bfdbfe;
+  background: rgba(255, 255, 255, 0.75);
+}
+
+.lock-icon {
+  font-size: 32px;
+  margin-bottom: 10px;
+}
+
+.locked-card h4 {
+  font-size: 15px;
+  margin-bottom: 8px;
+  color: #1e3a8a;
+}
+
+.locked-desc {
+  font-size: 12px;
+  color: #64748b;
+  margin-bottom: 14px;
+  line-height: 1.4;
+}
+
+.unlock-tag {
+  background: #eff6ff;
+  color: var(--primary-blue);
+  font-size: 11px;
+  font-weight: 700;
+  padding: 5px 10px;
+  border-radius: 12px;
+  text-transform: uppercase;
 }
 
 /* Zona tierna */
@@ -474,7 +517,7 @@ textarea {
   min-height: 20px;
 }
 
-/* Ramo */
+/* Ramo de Flores */
 .bouquet-section {
   display: flex;
   flex-direction: column;
