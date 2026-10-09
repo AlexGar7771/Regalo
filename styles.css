@@ -1,8 +1,9 @@
 :root {
-  --bg-gradient: linear-gradient(145deg, #e0f2fe 0%, #dbeafe 50%, #eff6ff 100%);
+  --bg-gradient: linear-gradient(145deg, #f0fdf4 0%, #e0f2fe 50%, #eff6ff 100%);
   --card-bg: rgba(255, 255, 255, 0.94);
   --primary-blue: #3b82f6;
   --dark-blue: #1d4ed8;
+  --accent-pink: #ec4899;
   --accent-yellow: #f59e0b;
   --text-main: #1e293b;
   --text-muted: #64748b;
@@ -25,51 +26,6 @@ body {
   overflow-x: hidden;
 }
 
-#sparkles-container {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  pointer-events: none;
-  z-index: 10;
-}
-
-.sparkle {
-  position: absolute;
-  top: -15px;
-  font-size: 14px;
-  animation: fall linear forwards;
-}
-
-@keyframes fall {
-  to { transform: translateY(105vh) rotate(180deg); }
-}
-
-.music-floating-btn {
-  position: fixed;
-  top: 16px;
-  right: 16px;
-  z-index: 100;
-  background: #ffffff;
-  color: var(--dark-blue);
-  border: 2px solid var(--primary-blue);
-  padding: 8px 16px;
-  border-radius: 30px;
-  font-weight: 700;
-  font-size: 13px;
-  cursor: pointer;
-  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.15);
-  transition: transform 0.2s;
-  display: flex;
-  align-items: center;
-  gap: 6px;
-}
-
-.music-floating-btn:hover {
-  transform: scale(1.05);
-}
-
 .toast-popup {
   position: fixed;
   bottom: 24px;
@@ -88,27 +44,30 @@ body {
 
 .nav-tabs {
   display: flex;
-  gap: 6px;
+  gap: 5px;
   background: rgba(255, 255, 255, 0.85);
   padding: 6px;
   border-radius: 16px;
   border: 1px solid var(--border);
   margin-bottom: 22px;
   backdrop-filter: blur(8px);
+  overflow-x: auto;
 }
 
 .tab-btn {
   flex: 1;
+  min-width: 75px;
   padding: 10px 4px;
   border: none;
   background: transparent;
   color: var(--text-muted);
   font-weight: 700;
-  font-size: 12px;
+  font-size: 11.5px;
   border-radius: 12px;
   cursor: pointer;
   transition: all 0.2s ease;
   text-align: center;
+  white-space: nowrap;
 }
 
 .tab-btn.active {
@@ -127,7 +86,7 @@ body {
 .content-wrapper {
   max-width: 650px;
   margin: 0 auto;
-  padding: 65px 16px 40px;
+  padding: 24px 16px 40px;
 }
 
 .card {
@@ -142,7 +101,7 @@ body {
 
 .lock-card {
   max-width: 420px;
-  margin: 90px auto 30px;
+  margin: 80px auto 30px;
   text-align: center;
 }
 
@@ -216,6 +175,24 @@ input[type="date"]:focus, input[type="text"]:focus, select:focus, textarea:focus
   transform: translateY(-2px);
 }
 
+.btn-bypass {
+  width: 100%;
+  background: transparent;
+  color: #ec4899;
+  border: 1px dashed #f472b6;
+  padding: 10px;
+  border-radius: 12px;
+  font-weight: 700;
+  font-size: 12px;
+  cursor: pointer;
+  margin-top: 10px;
+  transition: all 0.2s;
+}
+
+.btn-bypass:hover {
+  background: #fdf2f8;
+}
+
 .btn-heart {
   background: linear-gradient(135deg, #ec4899, #db2777);
   color: #fff;
@@ -260,6 +237,12 @@ input[type="date"]:focus, input[type="text"]:focus, select:focus, textarea:focus
   border: 1px solid #bfdbfe;
 }
 
+.anniversary-badge {
+  background: #fce7f3;
+  color: #db2777;
+  border-color: #fbcfe8;
+}
+
 .glow-title {
   font-size: 26px;
   font-weight: 800;
@@ -270,6 +253,80 @@ input[type="date"]:focus, input[type="text"]:focus, select:focus, textarea:focus
 .subtitle {
   font-size: 14px;
   color: var(--text-muted);
+}
+
+/* Contador */
+.counter-card {
+  text-align: center;
+  background: linear-gradient(135deg, #ffffff 0%, #fdf2f8 100%);
+  border: 1px solid #fbcfe8;
+}
+
+.counter-title {
+  font-size: 15px;
+  color: #be185d;
+  margin-bottom: 14px;
+  font-weight: 700;
+}
+
+.counter-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.counter-box {
+  background: rgba(255, 255, 255, 0.85);
+  padding: 10px 4px;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(236, 72, 153, 0.1);
+  border: 1px solid #fce7f3;
+}
+
+.counter-num {
+  display: block;
+  font-size: 24px;
+  font-weight: 800;
+  color: #db2777;
+}
+
+.counter-lbl {
+  font-size: 11px;
+  color: var(--text-muted);
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.counter-foot {
+  font-size: 12px;
+  color: #9d174d;
+  font-weight: 700;
+  margin-top: 6px;
+}
+
+.spotify-card {
+  background: #ffffff;
+  border: 1px solid #bbf7d0;
+}
+
+.spotify-frame-wrap {
+  min-height: 380px;
+  background: #121212;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.spotify-link-btn {
+  display: inline-block;
+  color: #16a34a;
+  text-decoration: none;
+  font-size: 13px;
+  font-weight: 700;
+  padding: 8px 16px;
+  border-radius: 10px;
+  background: #f0fdf4;
+  border: 1px solid #bbf7d0;
 }
 
 .card-title-row {
@@ -352,7 +409,6 @@ textarea {
   transform: translateY(-3px);
 }
 
-/* Morado para ti y azulito para ella */
 .color-morado {
   background: #f5f3ff;
   border-top: 4px solid #8b5cf6;
@@ -391,7 +447,7 @@ textarea {
 }
 .btn-del-note:hover { color: #ef4444; }
 
-/* Lista de cosas por hacer (Checklist) */
+/* Checklist */
 .todo-list {
   display: flex;
   flex-direction: column;
@@ -435,86 +491,218 @@ textarea {
   color: #fff;
 }
 
-/* APARTADOS BLOQUEADOS */
-.grid-locked {
+/* Cartitas */
+.cartas-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
   gap: 14px;
+  margin-bottom: 24px;
 }
 
-.locked-card {
+.sobre-card {
+  background: #fffdf5;
+  border: 2px dashed #fcd34d;
+  border-radius: 16px;
+  padding: 16px;
   text-align: center;
-  padding: 22px 16px;
-  border: 1px dashed #bfdbfe;
-  background: rgba(255, 255, 255, 0.75);
-}
-
-.lock-icon {
-  font-size: 32px;
-  margin-bottom: 10px;
-}
-
-.locked-card h4 {
-  font-size: 15px;
-  margin-bottom: 8px;
-  color: #1e3a8a;
-}
-
-.locked-desc {
-  font-size: 12px;
-  color: #64748b;
-  margin-bottom: 14px;
-  line-height: 1.4;
-}
-
-.unlock-tag {
-  background: #eff6ff;
-  color: var(--primary-blue);
-  font-size: 11px;
-  font-weight: 700;
-  padding: 5px 10px;
-  border-radius: 12px;
-  text-transform: uppercase;
-}
-
-/* Zona tierna */
-.cute-zone { text-align: center; }
-
-.interactive-icons {
-  display: flex;
-  justify-content: center;
-  gap: 12px;
-  margin: 16px 0;
-  flex-wrap: wrap;
-}
-
-.icon-btn {
-  background: #ffffff;
-  border: 1px solid #e2e8f0;
-  padding: 10px 14px;
-  border-radius: 14px;
-  font-size: 22px;
   cursor: pointer;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 4px;
-  box-shadow: 0 3px 6px rgba(0,0,0,0.03);
-  transition: transform 0.2s;
+  transition: transform 0.2s, box-shadow 0.2s;
 }
 
-.icon-btn:hover { transform: translateY(-3px); }
+.sobre-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 18px rgba(245, 158, 11, 0.15);
+}
 
-.btn-sub {
-  font-size: 11px;
+.sobre-icono {
+  font-size: 38px;
+  margin-bottom: 6px;
+}
+
+.sobre-titulo {
+  font-size: 14px;
   font-weight: 700;
+  color: #92400e;
+  margin-bottom: 4px;
+}
+
+.sobre-fecha {
+  font-size: 11px;
   color: var(--text-muted);
 }
 
-.feedback-text {
+.carta-abierta {
+  background: #fff;
+  border: 2px solid #fbcfe8;
+  border-radius: 16px;
+  padding: 18px;
+  margin-top: 14px;
+  box-shadow: 0 6px 16px rgba(0,0,0,0.06);
+}
+
+/* ========================================================
+   ESTILOS DE PIZARRA, DIBUJOS Y CANCIONES
+   ======================================================== */
+.drawing-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.drawing-toolbar {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 100%;
+  margin-bottom: 12px;
+}
+
+.tools-group {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.tools-group input[type="color"] {
+  width: 28px;
+  height: 28px;
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  padding: 0;
+  background: none;
+}
+
+.tool-btn {
+  background: #ffffff;
+  border: 1px solid var(--border);
+  padding: 7px 12px;
+  border-radius: 10px;
   font-weight: 700;
-  color: var(--primary-blue);
-  min-height: 20px;
+  font-size: 12px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.tool-btn:hover {
+  background: #f1f5f9;
+}
+
+.tool-btn.active {
+  background: var(--primary-blue);
+  color: #ffffff;
+  border-color: var(--primary-blue);
+}
+
+.btn-save-draw {
+  background: #ec4899;
+  color: #fff;
+  border-color: #ec4899;
+}
+
+.canvas-wrapper {
+  width: 100%;
+  max-width: 360px;
+  height: 320px;
+  background: #ffffff;
+  border: 2px dashed #93c5fd;
+  border-radius: 16px;
+  box-shadow: inset 0 2px 6px rgba(0,0,0,0.04);
+  touch-action: none;
+  position: relative;
+  overflow: hidden;
+}
+
+#paint-canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+  cursor: crosshair;
+}
+
+/* Galería de dibujos */
+.drawings-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 14px;
+  margin-bottom: 24px;
+}
+
+.drawing-item-card {
+  background: #ffffff;
+  border-radius: 14px;
+  padding: 8px;
+  border: 1px solid #e2e8f0;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.04);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.drawing-item-img {
+  width: 100%;
+  height: 140px;
+  object-fit: contain;
+  background: #fafafa;
+  border-radius: 10px;
+}
+
+.drawing-item-footer {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 8px;
+  font-size: 11px;
+  color: var(--text-muted);
+}
+
+/* Lista de canciones */
+.songs-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.song-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 14px;
+  background: #ffffff;
+  border-radius: 12px;
+  border: 1px solid #e2e8f0;
+}
+
+.song-info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.song-title {
+  font-size: 14px;
+  font-weight: 700;
+  color: #1e3a8a;
+}
+
+.song-author {
+  font-size: 11px;
+  color: var(--text-muted);
+}
+
+.song-link-btn {
+  background: #f0fdf4;
+  color: #16a34a;
+  border: 1px solid #bbf7d0;
+  padding: 6px 12px;
+  border-radius: 8px;
+  font-size: 12px;
+  font-weight: 700;
+  text-decoration: none;
 }
 
 /* Ramo de Flores */
@@ -656,6 +844,45 @@ textarea {
   color: #b45309;
   text-align: right;
   margin-top: 14px;
+}
+
+.cute-zone { text-align: center; }
+
+.interactive-icons {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  margin: 16px 0;
+  flex-wrap: wrap;
+}
+
+.icon-btn {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  padding: 10px 14px;
+  border-radius: 14px;
+  font-size: 22px;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  box-shadow: 0 3px 6px rgba(0,0,0,0.03);
+  transition: transform 0.2s;
+}
+
+.icon-btn:hover { transform: translateY(-3px); }
+
+.btn-sub {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--text-muted);
+}
+
+.feedback-text {
+  font-weight: 700;
+  color: var(--primary-blue);
+  min-height: 20px;
 }
 
 .footer {

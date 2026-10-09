@@ -2,8 +2,8 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Nuestro Rincón Especial 💌✨</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Feliz Aniversario, Mi Amor 💖✨</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Quicksand:wght@400;600;700;800&display=swap" rel="stylesheet">
@@ -14,27 +14,14 @@
 </head>
 <body>
 
-  <!-- Lluvia de destellos suaves -->
-  <div id="sparkles-container"></div>
-
-  <!-- Audio local con Latin Mafia -->
-  <audio id="bg-music" loop preload="auto">
-    <source src="cancion.mp3" type="audio/mpeg">
-  </audio>
-
-  <!-- Botón de música -->
-  <button id="music-btn" class="music-floating-btn" title="Reproducir / Pausar">
-    🎵 <span id="music-text">Play Música</span>
-  </button>
-
-  <!-- Notificación emergente en vivo -->
+  <!-- Notificación flotante -->
   <div id="toast-notif" class="toast-popup hidden"></div>
 
   <!-- PANTALLA 1: CANDADO DE BIENVENIDA -->
   <section id="lock-screen" class="screen active">
     <div class="card lock-card">
-      <div class="kitty-avatar bounce">🐱💙</div>
-      <h2>Nuestro Rinconcito Secreto</h2>
+      <div class="kitty-avatar bounce">🐱💖</div>
+      <h2>Sorpresa de Nuestro Aniversario</h2>
       <p class="hint-text">
         🔒 <strong>Pista secreta:</strong><br>
         El día que nos escapamos y nos dimos nuestro beso... 🤫💋
@@ -45,10 +32,11 @@
         <input type="date" id="date-pass">
       </div>
 
-      <button id="btn-unlock" class="btn-primary">Entrar a Nuestro Espacio ✨</button>
+      <button id="btn-unlock" class="btn-primary" onclick="intentarDesbloquear()">Entrar a Nuestra Sorpresa ✨</button>
+      <button class="btn-bypass" onclick="desbloquearDirecto()">Entrar con la llave del amor 🗝️💖</button>
       <p id="error-msg" class="error-text"></p>
 
-      <div class="candies-deco">🍬 🍭 🧁 🍫 🐱</div>
+      <div class="candies-deco">💐 🎂 🥂 💖 🐱</div>
     </div>
   </section>
 
@@ -56,40 +44,233 @@
   <main id="main-content" class="screen hidden">
     <div class="content-wrapper">
 
-      <!-- Barra de Navegación Completa -->
+      <!-- Barra de Navegación -->
       <nav class="nav-tabs">
-        <button class="tab-btn active" onclick="cambiarVista('diario')">📝 Notitas</button>
+        <button class="tab-btn active" onclick="cambiarVista('aniversario')">🎉 Aniversario</button>
+        <button class="tab-btn" onclick="cambiarVista('dibujo')">🎨 Dibujitos</button>
+        <button class="tab-btn" onclick="cambiarVista('canciones')">🎵 Canciones</button>
+        <button class="tab-btn" onclick="cambiarVista('cartitas')">💌 Cartitas</button>
+        <button class="tab-btn" onclick="cambiarVista('diario')">📝 Notitas</button>
         <button class="tab-btn" onclick="cambiarVista('retos')">🌟 Por Hacer</button>
-        <button class="tab-btn" onclick="cambiarVista('bloqueados')">🔒 Bloqueados</button>
         <button class="tab-btn" onclick="cambiarVista('flores')">🌻 Flores</button>
       </nav>
 
-      <!-- VISTA 1: NOTITAS EN TIEMPO REAL -->
-      <section id="vista-diario" class="tab-view active">
+      <!-- VISTA 1: ANIVERSARIO Y SPOTIFY -->
+      <section id="vista-aniversario" class="tab-view active">
         <header class="header">
-          <span class="badge">Sincronizado en la nube ☁️💙</span>
-          <h1 class="glow-title">Hola, mi corazón de melón 🐱</h1>
-          <p class="subtitle">Cualquier notita que dejes aquí se guardará y la veremos los dos al instante.</p>
+          <span class="badge anniversary-badge">✨ Nuestro Gran Capítulo ✨</span>
+          <h1 class="glow-title">¡Feliz Aniversario, Corazón de Melón! 💖</h1>
+          <p class="subtitle">Celebrando cada instante juntos desde el 7 de septiembre.</p>
         </header>
 
-        <!-- Botón interactivo "Pensando en ti" -->
+        <!-- Contador de tiempo en vivo -->
+        <div class="card counter-card">
+          <h3 class="counter-title">⏳ Tiempo amándonos intensamente:</h3>
+          <div class="counter-grid">
+            <div class="counter-box">
+              <span id="dias-juntos" class="counter-num">0</span>
+              <span class="counter-lbl">Días</span>
+            </div>
+            <div class="counter-box">
+              <span id="horas-juntos" class="counter-num">0</span>
+              <span class="counter-lbl">Horas</span>
+            </div>
+            <div class="counter-box">
+              <span id="minutos-juntos" class="counter-num">0</span>
+              <span class="counter-lbl">Minutos</span>
+            </div>
+            <div class="counter-box">
+              <span id="segundos-juntos" class="counter-num">0</span>
+              <span class="counter-lbl">Segundos</span>
+            </div>
+          </div>
+          <p class="counter-foot">Y esto apenas comienza... ♾️❤️</p>
+        </div>
+
+        <!-- Playlist oficial integrada -->
+        <div class="card spotify-card">
+          <div class="card-title-row">
+            <h3>🎧 Nuestra Playlist en Spotify</h3>
+            <span class="bubble-tag" style="background:#1db954; color:#fff;">Spotify</span>
+          </div>
+          <p style="font-size: 13px; color: var(--text-muted); margin-bottom: 12px;">
+            Las canciones que guardan nuestra historia y momentos únicos:
+          </p>
+          <div class="spotify-frame-wrap">
+            <iframe 
+              src="https://open.spotify.com/embed/playlist/0muWUxCzxbspCWM1KEb7F5?utm_source=generator&theme=0" 
+              width="100%" 
+              height="380" 
+              frameBorder="0" 
+              allowfullscreen="" 
+              allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" 
+              loading="lazy"
+              style="border-radius: 12px; border: none; display: block;">
+            </iframe>
+          </div>
+          <div style="margin-top: 12px; text-align: center;">
+            <a href="https://open.spotify.com/playlist/0muWUxCzxbspCWM1KEb7F5" target="_blank" rel="noopener noreferrer" class="spotify-link-btn">
+              Abrir directamente en la app de Spotify ↗
+            </a>
+          </div>
+        </div>
+
+        <!-- Carta Principal de Aniversario -->
+        <div class="card letter-card">
+          <div class="tape-deco"></div>
+          <h2 class="handwriting-title">Para el amor de mi vida... 📜💍</h2>
+          <div class="letter-body">
+            <p>
+              ¡Feliz aniversario, mi niña hermosa! Mirar atrás y recordar el 7 de septiembre cuando nos escapamos y nos dimos ese beso me recuerda la suerte tan inmensa de tenerte en mi vida.
+            </p>
+            <p>
+              Gracias por cada risa, por tus mimos y por ser mi refugio seguro. Prometo seguir llenándote de detalles, flores y memorias inolvidables. Eres y siempre serás mi persona favorita en todo el planeta.
+            </p>
+            <p class="signature">Tu novio casi ingeniero que te ama infinitamente. ✨💖🐱</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- VISTA 2: PIZARRA CON PINCEL, BORRADOR, RELLENO Y GUARDADO -->
+      <section id="vista-dibujo" class="tab-view hidden">
+        <header class="header">
+          <span class="badge">Lienzo Creativo 🎨</span>
+          <h1 class="glow-title">Pizarra de Garabatos & Dibujitos</h1>
+          <p class="subtitle">Dibuja, colorea o rellena, y guárdalo para que ambos lo vean ☁️</p>
+        </header>
+
+        <div class="card drawing-card">
+          <!-- Herramientas -->
+          <div class="drawing-toolbar">
+            <div class="tools-group">
+              <button id="tool-brush" class="tool-btn active" onclick="seleccionarHerramienta('brush')">✏️ Pincel</button>
+              <button id="tool-eraser" class="tool-btn" onclick="seleccionarHerramienta('eraser')">🧹 Borrador</button>
+              <button id="tool-fill" class="tool-btn" onclick="seleccionarHerramienta('fill')">🪣 Rellenar</button>
+            </div>
+            
+            <div class="tools-group">
+              <label>Color: <input type="color" id="draw-color" value="#ec4899"></label>
+              <label>Trazo: 
+                <select id="draw-size">
+                  <option value="3">Fino</option>
+                  <option value="8" selected>Medio</option>
+                  <option value="18">Grueso</option>
+                </select>
+              </label>
+            </div>
+
+            <div class="tools-group">
+              <button class="tool-btn" onclick="limpiarCanvas()">Limpiar 🗑️</button>
+              <button class="tool-btn btn-save-draw" onclick="guardarDibujoWeb()">Guardar Dibujo 💾</button>
+            </div>
+          </div>
+
+          <div class="canvas-wrapper">
+            <canvas id="paint-canvas"></canvas>
+          </div>
+          <p style="font-size:12px; color:var(--text-muted); text-align:center; margin-top:8px;">
+            Herramienta: <strong id="current-tool-txt" style="color:var(--primary-blue);">Pincel</strong>
+          </p>
+        </div>
+
+        <!-- Galería de dibujos guardados -->
+        <div class="mural-header">
+          <h2>🖼️ Galería de Dibujitos Compartidos</h2>
+          <p>Los dibujos que ambos han guardado</p>
+        </div>
+        <div id="mural-dibujos" class="drawings-grid"></div>
+      </section>
+
+      <!-- VISTA 3: CANCIONES DEDICADAS -->
+      <section id="vista-canciones" class="tab-view hidden">
+        <header class="header">
+          <span class="badge">Nuestra Música 🎵</span>
+          <h1 class="glow-title">Rincón de Canciones Dedicadas</h1>
+          <p class="subtitle">Agreguen canciones para escucharlas juntos en cualquier momento.</p>
+        </header>
+
+        <div class="card">
+          <h3 style="margin-bottom: 10px; color:#1e3a8a;">Dedicar una canción</h3>
+          <input type="text" id="cancion-titulo" placeholder="Nombre de la canción y artista (ej: Flores - LATIN MAFIA)" style="margin-bottom: 8px;">
+          <input type="text" id="cancion-link" placeholder="Enlace de Spotify o YouTube (opcional)" style="margin-bottom: 10px;">
+          
+          <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px;">
+            <div class="stickers-pick">
+              <span>¿Quién dedica?:</span>
+              <select id="cancion-autor" style="width:auto; padding:6px 10px;">
+                <option value="Tu novio casi inge 🐱">Tu novio casi inge 🐱</option>
+                <option value="Corazón de melón 💙">Corazón de melón 💙</option>
+              </select>
+            </div>
+            <button class="btn-primary" style="width:auto; padding:10px 18px;" onclick="agregarCancion()">Agregar Canción 🎶</button>
+          </div>
+        </div>
+
+        <div class="mural-header">
+          <h2>🎧 Canciones de Nuestra Historia</h2>
+          <p>Toca para reproducir</p>
+        </div>
+        <div id="lista-canciones" class="songs-list"></div>
+      </section>
+
+      <!-- VISTA 4: CARTITAS -->
+      <section id="vista-cartitas" class="tab-view hidden">
+        <header class="header">
+          <span class="badge">Buzón Secreto 💌</span>
+          <h1 class="glow-title">Nuestras Cartitas de Amor</h1>
+          <p class="subtitle">Escribe cartas con sobre y sello para abrir en días especiales.</p>
+        </header>
+
+        <div class="card">
+          <h3 style="margin-bottom: 10px; color:#1e3a8a;">Redactar una nueva carta</h3>
+          <input type="text" id="carta-titulo" placeholder="Título (ej: Para cuando me extrañes...)" style="margin-bottom: 10px;">
+          <textarea id="carta-contenido" style="min-height: 120px;" placeholder="Escribe aquí toda tu cartita con tranquilidad..."></textarea>
+          
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-top:10px; flex-wrap:wrap; gap:8px;">
+            <div class="stickers-pick">
+              <span>Sello:</span>
+              <select id="carta-icono" style="width:auto; padding:6px 10px;">
+                <option value="💌">💌 Clásica</option>
+                <option value="💖">💖 Con amor</option>
+                <option value="🌹">🌹 Flor</option>
+                <option value="🐱">🐱 Gatito</option>
+              </select>
+            </div>
+            <button class="btn-primary" style="width:auto; padding:10px 18px;" onclick="guardarCartita()">Guardar Carta 📮</button>
+          </div>
+        </div>
+
+        <div class="mural-header">
+          <h2>📬 Cartas Guardadas</h2>
+          <p>Toca cualquier carta para abrir su contenido</p>
+        </div>
+        <div id="contenedor-cartas" class="cartas-grid"></div>
+      </section>
+
+      <!-- VISTA 5: NOTITAS EN TIEMPO REAL -->
+      <section id="vista-diario" class="tab-view hidden">
+        <header class="header">
+          <span class="badge">Sincronizado en la nube ☁️💙</span>
+          <h1 class="glow-title">Nuestras Notitas de Amor 🐱</h1>
+          <p class="subtitle">Escribe algo lindo y se guardará al instante para ambos.</p>
+        </header>
+
         <div class="card pulse-card">
           <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px;">
             <div>
-              <h4 style="color: #1e3a8a; margin-bottom: 3px;">¿Te acordaste de mí? 💓</h4>
-              <p style="font-size: 12px; color: #64748b;">Mándame un aviso de que estás pensando en mí ahora mismo</p>
+              <h4 style="color: #1e3a8a; margin-bottom: 3px;">¿Pensando en mí ahora? 💓</h4>
+              <p style="font-size: 12px; color: #64748b;">Mándame un aviso de que estás pensando en mí</p>
             </div>
             <button class="btn-heart" onclick="enviarPensandoEnTi()">Enviar latido 💌</button>
           </div>
         </div>
 
-        <!-- Creador de notas -->
         <div class="card note-creator-card">
           <div class="card-title-row">
-            <h3>💌 Escribir un recadito</h3>
-            <span class="bubble-tag" id="sync-status">Conectado ✨</span>
+            <h3>💌 Dejar una notita</h3>
+            <span class="bubble-tag" id="sync-status">En vivo ✨</span>
           </div>
-          <textarea id="nueva-nota-txt" placeholder="Escribe algo lindo para el día de hoy..."></textarea>
+          <textarea id="nueva-nota-txt" placeholder="Escribe un recuerdo bonito o un mensaje..."></textarea>
           <div class="note-actions">
             <div class="stickers-pick">
               <span>¿Quién escribe?:</span>
@@ -102,16 +283,14 @@
           </div>
         </div>
 
-        <!-- Tablón de post-its -->
         <div class="mural-header">
-          <h2>📌 Muro de Notitas Compartidas</h2>
+          <h2>📌 Muro de Recuerdos</h2>
           <p>Tus notas moradas y sus notas azulitas</p>
         </div>
         <div id="mural-notas" class="notes-grid"></div>
 
-        <!-- Mimos -->
         <div class="card cute-zone">
-          <h3>Un poquito de cariño express 🐾🍬</h3>
+          <h3>Mimos de Aniversario 🐾🍬</h3>
           <p>Toca para enviarle un mimetito:</p>
           <div class="interactive-icons">
             <button class="icon-btn" onclick="petKitty()">🐱 <span class="btn-sub">Mimos</span></button>
@@ -123,66 +302,32 @@
         </div>
       </section>
 
-      <!-- VISTA 2: COSAS POR HACER (RETOS / CHECKLIST) -->
+      <!-- VISTA 6: RETOS Y METAS -->
       <section id="vista-retos" class="tab-view hidden">
         <header class="header">
-          <span class="badge">Nuestras Metas & Deseos 🌟</span>
+          <span class="badge">Nuestras Metas & Planes 🌟</span>
           <h1 class="glow-title">Cosas por hacer juntos</h1>
-          <p class="subtitle">Agreguen ideas, citas o detalles y márquenlos con una palomita cuando se cumplan 👫</p>
+          <p class="subtitle">Ideas para citas de aniversario y aventuras pendientes 👫</p>
         </header>
 
         <div class="card">
           <div style="display: flex; gap: 8px;">
-            <input type="text" id="nuevo-reto-txt" placeholder="Ej: Comer crepas juntos, ver una peli..." style="margin-top:0;">
+            <input type="text" id="nuevo-reto-txt" placeholder="Ej: Cena romántica, viaje de fin de semana..." style="margin-top:0;">
             <button class="btn-primary" style="width: auto; padding: 0 16px; white-space: nowrap;" id="btn-crear-reto" onclick="agregarReto()">Agregar ✨</button>
           </div>
         </div>
 
         <div class="card">
-          <div id="lista-retos" class="todo-list">
-            <!-- Cargados con JS -->
-          </div>
+          <div id="lista-retos" class="todo-list"></div>
         </div>
       </section>
 
-      <!-- VISTA 3: APARTADOS BLOQUEADOS -->
-      <section id="vista-bloqueados" class="tab-view hidden">
-        <header class="header">
-          <span class="badge">Futuros Momentos ⏳</span>
-          <h1 class="glow-title">Nuestros Próximos Planes</h1>
-          <p class="subtitle">Estos apartados especiales se irán revelando conforme pase el tiempo...</p>
-        </header>
-
-        <div class="grid-locked">
-          <div class="card locked-card">
-            <div class="lock-icon">🔒</div>
-            <h4>Cita Bajo las Estrellas ✨</h4>
-            <p class="locked-desc">Una noche especial solo para los dos, desconectados de todo el mundo.</p>
-            <span class="unlock-tag">Desbloquea: Próximamente</span>
-          </div>
-
-          <div class="card locked-card">
-            <div class="lock-icon">🔒</div>
-            <h4>Álbum de Recuerdos Secretos 📸</h4>
-            <p class="locked-desc">Nuestras fotos más divertidas, espontáneas y bonitas juntos.</p>
-            <span class="unlock-tag">Desbloquea: Próximamente</span>
-          </div>
-
-          <div class="card locked-card">
-            <div class="lock-icon">🔒</div>
-            <h4>Nuestra Playlist en Repetición 🎧</h4>
-            <p class="locked-desc">Todas las canciones de Latin Mafia y temas que nos recuerdan al otro.</p>
-            <span class="unlock-tag">Desbloquea: Próximamente</span>
-          </div>
-        </div>
-      </section>
-
-      <!-- VISTA 4: FLORES AMARILLAS Y CARTA -->
+      <!-- VISTA 7: FLORES AMARILLAS Y CARTA DE FLORES -->
       <section id="vista-flores" class="tab-view hidden">
         <header class="header">
           <span class="badge" style="background:#fef9e7; color:#d68910; border-color:#f9e79f;">Flores Eternas 🌻</span>
           <h1 class="glow-title">Tus Flores Amarillas</h1>
-          <p class="subtitle">Este ramo nunca se va a marchitar y siempre te esperará aquí 💛</p>
+          <p class="subtitle">Este ramo nunca se marchitará, igual que mi amor por ti 💛</p>
         </header>
 
         <div class="bouquet-section">
@@ -206,15 +351,16 @@
           </div>
         </div>
 
+        <!-- CARTA DE LAS FLORES AMARILLAS RECUPERADA -->
         <div class="card letter-card">
           <div class="tape-deco"></div>
-          <h2 class="handwriting-title">De mi corazón para ti... 💌</h2>
+          <h2 class="handwriting-title">Flores para mi corazón de melón... 🌻💌</h2>
           <div class="letter-body">
             <p>
-              Hola corazón de melón, sé que estas flores quizás no son lo que esperabas, pero están pensadas en ti. Yo sé que un día te daré tantas flores que no sabrás dónde ponerlas jajaja, pero sabes que por el momento no se puede :c, te extraño mucho y sé que un día estaremos juntos. Estas flores no se marchitarán y las podrás ver las veces que quieras.
+              Hola mi amor, sé que estas flores quizás no son lo que esperabas físicamente en su momento, pero están hechas pensadas 100% en ti. Yo sé que un día te voy a llenar de tantas flores que no vas a saber ni dónde ponerlas jajaja, pero sabes que por ahora este rincón es nuestro refugio especial :c.
             </p>
             <p>
-              Este espacio es para ti y para mí, algo bonito que debes esperar de tu novio casi ingeniero. Gracias por hacerme tan feliz todos los días y ser mi calma en todo momento.
+              Estas flores virtuales tienen un superpoder: <strong>nunca van a perder su color ni se van a marchitar jamás</strong>, exactamente igual a lo que siento por ti todos los días. Eres mi persona favorita, mi tranquilidad y mi lugar seguro.
             </p>
             <p class="signature">Con todo mi amor siempre, tu persona favorita. ✨💛🐱</p>
           </div>
@@ -222,7 +368,7 @@
       </section>
 
       <footer class="footer">
-        Conectados en la nube con amor eterno 🐱💙
+        Celebrando nuestro aniversario con todo el amor del mundo 🐱💖
       </footer>
     </div>
   </main>
